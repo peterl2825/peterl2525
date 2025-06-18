@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>像素島嶼問卷</title>
+  <link rel="stylesheet" href="https://unpkg.com/nes.css/css/nes.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #d0f4f7;
+      font-family: 'Press Start 2P', cursive;
+      padding: 20px;
+    }
+    .question, .transition {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    .island-image {
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      display: block;
+    }
+    .center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="question1" class="question active">
+    <p>問題1：你會為島上的第一棟建築選擇什麼？</p>
+    <label><input type="radio" name="q1" value="hut"> 小木屋</label><br>
+    <label><input type="radio" name="q1" value="camp"> 帳篷</label><br>
+    <button class="nes-btn is-primary" onclick="nextQuestion()">下一題</button>
+  </div>
+
+  <div id="transition1" class="transition center">
+    <img class="island-image" src="https://kenney.nl/assets/img/homepage/tiny-town.png" alt="島嶼演進1">
+  </div>
+
+  <div id="question2" class="question">
+    <p>問題2：幫你的島嶼村莊取個名字吧！</p>
+    <input class="nes-input" type="text" name="q2" placeholder="輸入村莊名稱">
+    <br><br>
+    <button class="nes-btn is-primary" onclick="nextQuestion()">下一題</button>
+  </div>
+
+  <div id="transition2" class="transition center">
+    <img class="island-image" src="https://opengameart.org/sites/default/files/styles/medium/public/tinyisland_0.png" alt="島嶼演進2">
+  </div>
+
+  <div id="question3" class="question">
+    <p>問題3：你想讓島嶼發展成？</p>
+    <label><input type="radio" name="q3" value="farm"> 農業小鎮</label><br>
+    <label><input type="radio" name="q3" value="port"> 港口都市</label><br>
+    <button class="nes-btn is-success" onclick="showResults()">完成問卷</button>
+  </div>
+
+  <div id="results" class="center" style="display:none">
+    <h2>感謝你的填寫！🌴</h2>
+    <p>你的島嶼即將蓬勃發展！</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script>
+    let current = 1;
+
+    function nextQuestion() {
+      document.getElementById(`question${current}`).classList.remove('active');
+      document.getElementById(`transition${current}`).classList.add('active');
+
+      anime({
+        targets: `#transition${current} img`,
+        opacity: [0, 1],
+        duration: 1000,
+        easing: 'easeOutQuad',
+        complete: () => {
+          setTimeout(() => {
+            document.getElementById(`transition${current}`).classList.remove('active');
+            current++;
+            const nextQ = document.getElementById(`question${current}`);
+            if (nextQ) nextQ.classList.add('active');
+          }, 1000);
+        }
+      });
+    }
+
+    function showResults() {
+      document.getElementById(`question${current}`).classList.remove('active');
+      document.getElementById('results').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
